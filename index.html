@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Bilgini Test Et! | Online Quiz ve Bilgi Yarışması</title>
+    <meta name="description" content="QuizMaster ile bilgini test et! Genel kültür, bilim, coğrafya, tarih, spor, sinema ve daha fazla kategoride 280 soru. Ücretsiz online quiz yarışması.">
+    <meta name="keywords" content="quiz, bilgi yarışması, genel kültür, test, online quiz, türkçe quiz, bilgi testi, soru cevap">
+    <meta name="author" content="QuizMaster">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="QuizMaster - Bilgini Test Et!">
+    <meta property="og:description" content="14 kategoride 280 soru ile bilgini test et! Ücretsiz online quiz yarışması.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="QuizMaster - Bilgini Test Et!">
+    <meta name="twitter:description" content="14 kategoride 280 soru ile bilgini test et! Ücretsiz online quiz yarışması.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo" onclick="goHome()">
+                <span class="logo-icon">&#9889;</span> Quiz<span class="highlight">Master</span>
+            </a>
+            <div class="nav-right">
+                <div class="level-badge" id="levelBadge" style="display:none;"></div>
+                <div class="score-badge" id="totalScoreBadge" onclick="showShop()" title="Mağazayı aç">
+                    &#11088; <span id="totalScore">0</span> Puan
+                </div>
+                <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Ses Aç/Kapa">&#128266;</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="homePage">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-badge">&#127942; 14 Kategori | 280 Soru</span>
+                    <h1>Bilgini <span class="highlight">Test Et!</span></h1>
+                    <p>Genel kültürden spora, bilimden sinemaya... Her kategoride 20 soru seni bekliyor. Ne kadar biliyorsun?</p>
+                    <div class="hero-btns">
+                        <a href="#categories" class="btn btn-primary">Quiz'e Başla &#8595;</a>
+                        <button class="btn btn-outline-light" onclick="showShop()">&#128722; Mağaza</button>
+                    </div>
+                    <div id="heroLevelInfo"></div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card hero-card-1">&#129504; Genel Kültür</div>
+                    <div class="hero-card hero-card-2">&#127757; Coğrafya</div>
+                    <div class="hero-card hero-card-3">&#9917; Spor</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="section categories" id="categories">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Kategori <span class="highlight">Seç</span></h2>
+                    <p>İlgi alanına göre bir kategori seç ve 20 soruyla bilgini ölç!</p>
+                </div>
+                <div class="category-grid" id="categoryGrid"></div>
+            </div>
+        </section>
+
+        <!-- Badges -->
+        <section class="section badges-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Başarımların <span class="highlight">&#127942;</span></h2>
+                    <p>Quiz çözerek rozetleri aç!</p>
+                </div>
+                <div class="badges-grid" id="badgesGrid"></div>
+            </div>
+        </section>
+
+        <!-- Leaderboard -->
+        <section class="section leaderboard-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Son <span class="highlight">Skorların</span></h2>
+                </div>
+                <div class="leaderboard" id="leaderboard">
+                    <p class="empty-state">Henüz quiz çözmedin. Hadi başlayalım!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ad -->
+        <section class="ad-section">
+            <div class="container">
+                <div class="ad-placeholder">
+                    <span>Reklam Alanı</span>
+                    <p>Google AdSense reklam buraya gelecek</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- QUIZ PAGE -->
+    <div id="quizPage" style="display:none;">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <button class="btn-back" onclick="goHome()">&#8592; Geri</button>
+                <div class="quiz-info">
+                    <span class="quiz-category-label" id="quizCategoryLabel"></span>
+                    <div class="quiz-progress-text">
+                        Soru <span id="currentQ">1</span> / <span id="totalQ">20</span>
+                    </div>
+                </div>
+                <div class="quiz-timer" id="quizTimer">
+                    <span class="timer-icon">&#9201;</span> <span id="timerText">30</span>s
+                </div>
+            </div>
+
+            <!-- Joker Buttons -->
+            <div class="joker-bar" id="jokerButtons"></div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="question-card" id="questionCard">
+                <div class="question-number" id="questionNumber">1</div>
+                <h2 class="question-text" id="questionText"></h2>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+
+            <div class="ad-placeholder ad-small" id="quizAd" style="display:none;">
+                <span>Reklam Alanı</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT PAGE -->
+    <div id="resultPage" style="display:none;">
+        <div class="result-container">
+            <div class="result-card">
+                <div class="result-emoji" id="resultEmoji"></div>
+                <h1 class="result-title" id="resultTitle"></h1>
+                <p class="result-subtitle" id="resultSubtitle"></p>
+
+                <div class="earned-points" id="earnedPoints"></div>
+                <div class="levelup-notice" id="levelUpNotice" style="display:none;"></div>
+
+                <div class="result-score-ring">
+                    <svg viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="54" class="ring-bg"/>
+                        <circle cx="60" cy="60" r="54" class="ring-fill" id="scoreRing"/>
+                    </svg>
+                    <div class="ring-text">
+                        <span class="ring-number" id="resultScoreNum">0</span>
+                        <span class="ring-label">/ 20</span>
+                    </div>
+                </div>
+
+                <div class="result-stats">
+                    <div class="result-stat correct">
+                        <span class="stat-icon">&#9989;</span>
+                        <span class="stat-num" id="correctCount">0</span>
+                        <span class="stat-label">Doğru</span>
+                    </div>
+                    <div class="result-stat wrong">
+                        <span class="stat-icon">&#10060;</span>
+                        <span class="stat-num" id="wrongCount">0</span>
+                        <span class="stat-label">Yanlış</span>
+                    </div>
+                    <div class="result-stat time">
+                        <span class="stat-icon">&#9201;</span>
+                        <span class="stat-num" id="avgTime">0</span>
+                        <span class="stat-label">Ort. Süre</span>
+                    </div>
+                </div>
+
+                <div class="result-buttons">
+                    <button class="btn btn-primary" onclick="retryQuiz()">Tekrar Çöz</button>
+                    <button class="btn btn-outline-dark" onclick="goHome()">Kategoriler</button>
+                    <button class="btn btn-share" onclick="shareResult()">&#128279; Paylaş</button>
+                </div>
+            </div>
+
+            <div class="ad-placeholder" style="margin-top:24px;">
+                <span>Reklam Alanı</span>
+                <p>Google AdSense reklam buraya gelecek</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOP MODAL -->
+    <div class="shop-modal" id="shopModal" style="display:none;" onclick="if(event.target===this)closeShop()">
+        <div class="shop-content">
+            <div class="shop-header">
+                <h2>&#128722; Joker Mağazası</h2>
+                <div class="shop-pts">&#11088; <span id="shopPoints">0</span> Puan</div>
+                <button class="shop-close" onclick="closeShop()">&#10005;</button>
+            </div>
+            <p class="shop-desc">Quiz çözerek puan kazan, jokerlerle avantaj sağla!</p>
+            <div class="shop-grid" id="shopGrid"></div>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas" style="display:none; position:fixed; inset:0; z-index:9999; pointer-events:none;"></canvas>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <p><span class="logo-icon">&#9889;</span> Quiz<span class="highlight">Master</span> &copy; 2026 | Bilgini test et, eğlenerek öğren!</p>
+        </div>
+    </footer>
+
+    <script src="quizzes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
