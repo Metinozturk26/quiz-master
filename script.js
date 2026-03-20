@@ -455,10 +455,17 @@ function goHome() {
 }
 
 // ========== START QUIZ ==========
+function trackEvent(action, category, label, value) {
+    if (typeof gtag === 'function') {
+        gtag('event', action, { event_category: category, event_label: label, value: value });
+    }
+}
+
 function startQuiz(quizId) {
     if (!isUnlocked(quizId)) return;
     currentQuiz = QUIZZES.find(q => q.id === quizId);
     if (!currentQuiz) return;
+    trackEvent('quiz_start', 'quiz', currentQuiz.title);
 
     currentQuestion = 0;
     score = 0;
@@ -594,6 +601,8 @@ function showResult() {
     const prevLevel = getCurrentLevel().level;
     saveScore(currentQuiz.id, currentQuiz.title, currentQuiz.icon, score, total, avgTime);
     const newLevel = getCurrentLevel().level;
+    trackEvent('quiz_complete', 'quiz', currentQuiz.title, score);
+    if (newLevel > prevLevel) trackEvent('level_up', 'progression', 'Lv.' + newLevel);
 
     let emoji, title, subtitle;
     if (percent >= 90) { emoji="\u{1F3C6}"; title="Muhteşem!"; subtitle="Sen bir dehasın! Neredeyse hepsini bildin."; }
